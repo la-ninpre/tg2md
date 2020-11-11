@@ -34,8 +34,11 @@ tag: {tag}\nlayout: post\n---\n'.format(\
 
     return post_header
 
-def parse_post_photo(post):
-    post_photo = '![image]({src})\n\n'.format(src=post['photo'])
+def parse_post_photo(post, media_dir):
+    post_photo_src = post['photo'][7:]
+    post_photo_src = media_dir + post_photo_src
+    post_photo = '![image](/assets/img/posts/{src})\n\n'.format(\
+            src=post_photo_src)
 
     return post_photo
 
@@ -116,10 +119,15 @@ def parse_post_text(post):
         return post_parsed_text
 
 
-def parse_post_media(post):
-    post_media = '<audio controls>\n \
-    <source src="{src}" type="{mime_type}">\n \
-    </audio>'.format(src=post['file'], mime_type=post['mime_type'])
+def parse_post_media(post, media_dir):
+    # get filename without parent directory
+    post_media_src = post['file'][post['file'].rfind("/") + 1:]
+
+    # add parent directory
+    post_media_src = media_dir + post_media_src
+    post_media = '\n<audio controls>\n \
+        <source src="{src}" type="{mime_type}">\n \
+        </audio>'.format(src=post_media_src, mime_type=post['mime_type'])
 
     return post_media
     
@@ -128,15 +136,17 @@ def parse_post(post):
     post_output = ''
     
     # optional image
+    photo_dir = '/assets/img/posts/'
     if 'photo' in post:
-        post_output += str(parse_post_photo(post))
+        post_output += str(parse_post_photo(post, photo_dir))
 
     # post text
     post_output += md_str(parse_post_text(post))
 
     # optional media
+    media_dir = '/assets/sound/posts/'
     if 'media_type' in post:
-        post_output += str(parse_post_media(post))
+        post_output += str(parse_post_media(post, media_dir))
 
     return post_output
 
@@ -167,7 +177,7 @@ def main():
 
             with open (post_filename, 'w') as f:
                 print(print_post_header(
-                    post_id, post_date.date(), None), 
+                    post_id, post_date, None), 
                     file=f)
                 print(parse_post(post), file=f)
 
