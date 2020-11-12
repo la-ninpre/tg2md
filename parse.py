@@ -13,7 +13,7 @@
 # - forwarded posts
 
 import os
-# import sys
+import sys
 import json
 from datetime import datetime
 
@@ -36,8 +36,8 @@ tag: {tag}\nlayout: post\n---\n'.format(\
 
 def parse_post_photo(post, media_dir):
     post_photo_src = post['photo'][7:]
-    post_photo_src = media_dir + post_photo_src
-    post_photo = '![image](/assets/img/posts/{src})\n\n'.format(\
+    post_photo_src = media_dir + '/' + post_photo_src
+    post_photo = '![image]({src})\n\n'.format(\
             src=post_photo_src)
 
     return post_photo
@@ -80,23 +80,26 @@ def parse_text_object(obj):
     elif obj_type == 'phone':
         return obj_text
 
+    # output = '*{str}*'.format(str=string.strip())
+    # output += '\n' * string.count('\n') * string.endswith('\n')
+
     elif obj_type == 'bold':
-        post_inline_bold = '**{text}**'.format(text=obj_text)
+        post_inline_bold = '**{text}**'.format(text=obj_text.strip())
         return post_inline_bold
 
     elif obj_type == 'italic':
-        post_inline_italic = '*{text}*'.format(text=obj_text)
+        post_inline_italic = '*{text}*'.format(text=obj_text.strip())
         return post_inline_italic
 
     elif obj_type == 'underline':
-        post_inline_underline = '<u>{text}</u>'.format(text=obj_text)
+        post_inline_underline = '<u>{text}</u>'.format(text=obj_text.strip())
         return post_inline_underline
 
     elif obj_type == 'strikethrough':
-        post_inline_strike = '<s>{text}</s>'.format(text=obj_text)
+        post_inline_strike = '<s>{text}</s>'.format(text=obj_text.strip())
         return post_inline_strike
 
-    elif obj_type == 'code':
+    elif obj_type == 'code' or obj_type == 'pre':
         post_inline_code = '```\n{text}\n```'.format(text=obj_text)
         return post_inline_code
 
@@ -124,7 +127,7 @@ def parse_post_media(post, media_dir):
     post_media_src = post['file'][post['file'].rfind("/") + 1:]
 
     # add parent directory
-    post_media_src = media_dir + post_media_src
+    post_media_src = media_dir + '/' + post_media_src
     post_media = '\n<audio controls>\n \
         <source src="{src}" type="{mime_type}">\n \
         </audio>'.format(src=post_media_src, mime_type=post['mime_type'])
@@ -136,15 +139,15 @@ def parse_post(post):
     post_output = ''
     
     # optional image
-    photo_dir = '/assets/img/posts/'
+    photo_dir = '/photos'
     if 'photo' in post:
         post_output += str(parse_post_photo(post, photo_dir))
 
     # post text
-    post_output += md_str(parse_post_text(post))
+    post_output += str(parse_post_text(post))
 
     # optional media
-    media_dir = '/assets/sound/posts/'
+    media_dir = '/files'
     if 'media_type' in post:
         post_output += str(parse_post_media(post, media_dir))
 
@@ -152,16 +155,27 @@ def parse_post(post):
 
 
 def main():
+    # try directory from first argument
+    try:
+        input_dir = sys.argv[1]
+    except IndexError as e:
+        # if it's not specified, use current directory
+        input_dir = '.'
+
     # create output directory
-    out_dir = './formatted_posts'
+    out_dir = input_dir + '/' + 'formatted_posts'
     try:
         os.mkdir(out_dir)
     except FileExistsError as e:
         pass
 
     # load json file
-    with open('result.json', 'r') as f:
-        data = json.load(f)
+    json_path = input_dir + '/' + 'result.json'
+    try:
+        with open(json_path, 'r') as f:
+            data = json.load(f)
+    except FileNotFoundError as e:
+        sys.exit('result.json not found.\nPlease, specify right directory')
 
     # load only messages
     raw_posts = data['messages']

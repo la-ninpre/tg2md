@@ -1,0 +1,214 @@
+{
+ "name": "test",
+ "type": "private_channel",
+ "id": 9882011936,
+ "messages": [
+  {
+   "id": 1,
+   "type": "service",
+   "date": "2020-11-12T12:53:52",
+   "actor": "test",
+   "actor_id": 9882011936,
+   "action": "create_channel",
+   "title": "test",
+   "text": ""
+  },
+  {
+   "id": 2,
+   "type": "message",
+   "date": "2020-11-12T12:54:07",
+   "from": "test",
+   "from_id": 9882011936,
+   "text": "test text post"
+  },
+  {
+   "id": 3,
+   "type": "message",
+   "date": "2020-11-12T12:57:31",
+   "from": "test",
+   "from_id": 9882011936,
+   "photo": "photos/photo_1@12-11-2020_12-57-31.jpg",
+   "width": 801,
+   "height": 526,
+   "text": ""
+  },
+  {
+   "id": 4,
+   "type": "message",
+   "date": "2020-11-12T12:57:40",
+   "from": "test",
+   "from_id": 9882011936,
+   "photo": "photos/photo_1@12-11-2020_12-57-31.jpg",
+   "width": 801,
+   "height": 526,
+   "text": "photo with text"
+  },
+  {
+   "id": 5,
+   "type": "message",
+   "date": "2020-11-12T12:58:18",
+   "edited": "2020-11-12T13:03:00",
+   "from": "test",
+   "from_id": 9882011936,
+   "text": [
+    {
+     "type": "italic",
+     "text": "italic\n\n"
+    },
+    {
+     "type": "bold",
+     "text": "bold\n\n"
+    },
+    {
+     "type": "underline",
+     "text": "underline\n\n"
+    },
+    {
+     "type": "strikethrough",
+     "text": "strikethrough\n\n"
+    },
+    {
+     "type": "pre",
+     "text": "monospace",
+     "language": ""
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "type": "message",
+   "date": "2020-11-12T13:01:05",
+   "from": "test",
+   "from_id": 9882011936,
+   "file": "voice_messages/audio_1@12-11-2020_13-01-05.ogg",
+   "media_type": "voice_message",
+   "mime_type": "audio/ogg",
+   "duration_seconds": 2,
+   "text": ""
+  },
+  {
+   "id": 8,
+   "type": "message",
+   "date": "2020-11-12T13:02:35",
+   "from": "test",
+   "from_id": 9882011936,
+   "file": "files/test-sound.ogg",
+   "media_type": "audio_file",
+   "mime_type": "audio/x-vorbis+ogg",
+   "duration_seconds": 1,
+   "text": ""
+  },
+  {
+   "id": 9,
+   "type": "message",
+   "date": "2020-11-12T13:43:23",
+   "from": "test",
+   "from_id": 9882011936,
+   "text": [
+    {
+     "type": "italic",
+     "text": "italic"
+    },
+    " in text\n\n",
+    {
+     "type": "italic",
+     "text": "italic on whole line"
+    }
+   ]
+  },
+  {
+   "id": 10,
+   "type": "message",
+   "date": "2020-11-12T14:11:35",
+   "edited": "2020-11-12T14:18:17",
+   "from": "test",
+   "from_id": 9882011936,
+   "text": [
+    {
+     "type": "bold",
+     "text": "bold"
+    },
+    " in text\n",
+    {
+     "type": "bold",
+     "text": "bold below\n\n"
+    },
+    "normal text\n\n",
+    {
+     "type": "bold",
+     "text": "bold with one line gap\n"
+    },
+    "normal text"
+   ]
+  },
+  {
+   "id": 11,
+   "type": "message",
+   "date": "2020-11-12T14:34:47",
+   "from": "test",
+   "from_id": 9882011936,
+   "text": [
+    {
+     "type": "bold",
+     "text": "multiline\nbold\n\ntext"
+    }
+   ]
+  },
+  {
+   "id": 13,
+   "type": "message",
+   "date": "2020-11-12T14:45:43",
+   "edited": "2020-11-12T14:45:55",
+   "from": "test",
+   "from_id": 9882011936,
+   "text": [
+    {
+     "type": "code",
+     "text": "monospace with one baktick\n\n"
+    },
+    {
+     "type": "pre",
+     "text": "multiline\nmonospace",
+     "language": ""
+    }
+   ]
+  },
+  {
+   "id": 14,
+   "type": "message",
+   "date": "2020-11-12T14:48:48",
+   "edited": "2020-11-12T14:49:39",
+   "from": "test",
+   "from_id": 9882011936,
+   "text": [
+    {
+     "type": "text_link",
+     "text": "text link\n\n",
+     "href": "http://example.com/"
+    },
+    {
+     "type": "link",
+     "text": "example.com"
+    },
+    "\n\n",
+    {
+     "type": "email",
+     "text": "example@example.com"
+    }
+   ]
+  },
+  {
+   "id": 15,
+   "type": "message",
+   "date": "2020-11-12T15:05:32",
+   "from": "test",
+   "from_id": 9882011936,
+   "text": [
+    {
+     "type": "italic",
+     "text": "bold italic"
+    }
+   ]
+  }
+ ]
+}
