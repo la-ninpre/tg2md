@@ -11,28 +11,23 @@
 # - replies
 # - single/muliple tags
 # - forwarded posts
+# - custom post header
 
 import os
 import sys
 import json
 from datetime import datetime
 
-# post:
-# header
-# [photo?]
-# text
-# [media?]
-
-# text:
-# [str|list(str|obj, ...)]
 
 def print_post_header(post_title, post_date, post_tag):
     # TODO: handle post tag/tags
+    # TODO: support for custom header
     post_header = '---\ntitle: {title}\ndate: {date}\n\
 tag: {tag}\nlayout: post\n---\n'.format(\
             title=post_title, date=post_date, tag=post_tag)
 
     return post_header
+
 
 def parse_post_photo(post, media_dir):
     post_photo_src = post['photo'][7:]
@@ -42,22 +37,34 @@ def parse_post_photo(post, media_dir):
 
     return post_photo
 
-def md_str(string):
-    string = string.replace('\n','\n\n')
-    string = string.replace('. ', '.\n')
 
-    return string
+# def md_str(string):
+    # string = string.replace('\n','\n\n')
+    # string = string.replace('. ', '.\n')
+
+    # return string
+
+
+def text_format(string, fmt):
+    if fmt in ('*', '**', '***', '`', '```'):
+        output = '{fmt}{txt}{fmt}'
+    elif fmt == '```':
+        output = '{fmt}\n{txt}\n{fmt}'
+    else:
+        output = '<{fmt}>{txt}</{fmt}>'
+
+    output = output.format(fmt=fmt, txt=string.strip())
+    output += '\n' * string.split('\n').count('') * string.endswith('\n')
+    return output
+
+def text_link_format(text, link):
+    link_fmt = '[{text}]({href})'
+    link_fmt = link_fmt.format(text=text.strip(), href=link)
+    link_fmt += '\n' * text.count('\n') * text.endswith('\n')
+    return link_fmt
 
 
 def parse_text_object(obj):
-    '''
-    Parse object from post text.
-
-    Objects are text links, plain links, underlined text, strikethrough text,
-    italic text, bold text, code blocks and hashtags.
-
-    This is a mess, but what is better?
-    '''
 
     obj_type = obj['type']
     obj_text = obj['text']
@@ -67,41 +74,32 @@ def parse_text_object(obj):
         return post_tag
 
     elif obj_type == 'text_link':
-        post_text_link = '[{text}]({href})'.format(text=obj_text, \
-                href=obj['href'])
-        return post_text_link
+        return text_link_format(obj_text, obj['href'])
 
-    elif obj_type == 'link':
-        post_link = '[link]({href})'.format(href=obj_text)
+    elif obj_type == 'link' or obj_type == 'email':
+        post_link = '<{href}>'.format(href=obj_text.strip())
         return post_link
 
-    # I dunno how this appeared, but it seems like hyphenated numbers
-    # are treated as phone numbers, so return them as plain text.
     elif obj_type == 'phone':
         return obj_text
 
-    # output = '*{str}*'.format(str=string.strip())
-    # output += '\n' * string.count('\n') * string.endswith('\n')
+    elif obj_type == 'italic':
+        return text_format(obj_text, '*')
 
     elif obj_type == 'bold':
-        post_inline_bold = '**{text}**'.format(text=obj_text.strip())
-        return post_inline_bold
+        return text_format(obj_text, '**')
 
-    elif obj_type == 'italic':
-        post_inline_italic = '*{text}*'.format(text=obj_text.strip())
-        return post_inline_italic
+    elif obj_type == 'code':
+        return text_format(obj_text, '`')
+
+    elif obj_type == 'pre':
+        return text_format(obj_text, '```')
 
     elif obj_type == 'underline':
-        post_inline_underline = '<u>{text}</u>'.format(text=obj_text.strip())
-        return post_inline_underline
+        return text_format(obj_text, 'u')
 
     elif obj_type == 'strikethrough':
-        post_inline_strike = '<s>{text}</s>'.format(text=obj_text.strip())
-        return post_inline_strike
-
-    elif obj_type == 'code' or obj_type == 'pre':
-        post_inline_code = '```\n{text}\n```'.format(text=obj_text)
-        return post_inline_code
+        return text_format(obj_text, 's')
 
 
 def parse_post_text(post):
