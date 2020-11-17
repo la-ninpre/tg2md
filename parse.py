@@ -1,12 +1,5 @@
 #!/usr/bin/env python
 
-# This script parses output from Telegram channel and converts each post to 
-# jekyll-applicable post in markdown.
-#
-# Telegram creates result.json file, as well as different directories containing
-# multimedia, photos, etc. This script creates new directory and populates it 
-# with formatted posts ready to publish.
-#
 # TODO summary:
 # - replies
 # - single/muliple tags
