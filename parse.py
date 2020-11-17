@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# parse.py - converts telegram json to jekyll md.
+# Copyright (c) 2020, Lev Brekalov
+
 # TODO summary:
 # - replies
 # - single/muliple tags
