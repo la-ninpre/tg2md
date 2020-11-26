@@ -1,4 +1,4 @@
-# telegram2md
+# tg2md
 
 This script parses output from Telegram channel and converts each post to 
 jekyll-applicable post in markdown.
@@ -37,6 +37,7 @@ and `files`, you should change `photo_dir` and `media_dir` variables.
 
 ## todo's
 
+- use argparse module instead of crap
 - replies
 - single/muliple tags
 - forwarded posts
