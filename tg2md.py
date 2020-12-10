@@ -10,13 +10,12 @@
 # - custom post header
 
 import os
-import sys
 import argparse
 import json
 from datetime import datetime
 
-
 def print_default_post_header(post_title, post_date, post_tag):
+
 
     '''
     returns default post header
@@ -259,8 +258,7 @@ def main():
 
             with open(post_path, 'w') as f:
                 print(print_default_post_header(
-                    post_id, post_date, None),
-                        file=f)
+                    post_id, post_date, None), file=f)
                 print(parse_post(post, args.photo_dir, args.media_dir), file=f)
 
 

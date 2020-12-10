@@ -19,25 +19,28 @@ only photos, voice messages and audio files.
 In format menu you should specify 'Machine-readable JSON' file and then
 locate to directory of your desire.
 
-To convert your posts to markdown files you need to copy `parse.py` file into
-your export folder and run it there.
+To convert your posts to markdown files you need to run `tg2md.py` program
+which takes path to your `result.json` file as first argument.
 
 ```console
-$ cp parse.py /path/to/export/dir
-$ cd /path/to/export/dir
-$ python parse.py
+$ python tg2md.py path/to/result.json
 ```
 
-Currently there's no way to change name of ouput folder other than directly
-editing the script. By default it's creating directory `formatted_posts` with
-markdown files in there.
+By default it will create `formatted_posts` directory in your current directory
+and populate it with markdown files. If you want to specify other location,
+use `--out-dir` flag
+
+```console
+$ python tg2md.py result.json --out-dir path/to/post/output
+```
 
 Also if your jekyll directory storing media files in folders other than `photos`
-and `files`, you should change `photo_dir` and `media_dir` variables.
+and `files`, you should specify their location with `--photo-dir` and
+`--media-dir` flags respectively. Note that they only change links in the
+markdown files.
 
 ## todo's
 
-- use argparse module instead of crap
 - replies
 - single/muliple tags
 - forwarded posts
