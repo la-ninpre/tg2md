@@ -8,14 +8,15 @@
 # - single/muliple tags
 # - forwarded posts
 # - custom post header
+# - multiple photos in one post
 
 import os
 import argparse
 import json
 from datetime import datetime
 
-def print_default_post_header(post_title, post_date, post_tag):
 
+def print_default_post_header(post_title, post_date, post_tag):
 
     '''
     returns default post header
@@ -57,6 +58,28 @@ def parse_post_photo(post, photo_dir):
     post_photo = '![image]({src})\n\n'.format(src=post_photo_src)
 
     return post_photo
+
+
+def parse_post_photo_as_file(post, media_dir):
+
+    '''
+    converts file tag with thumbnail to image and a link
+    '''
+
+    # links to files are currently broken, because these files are
+    # going to `files` directory, not `photos`.
+    # need to track down any files with thumbnails and then to move them
+    # to a photos directory.
+    post_photo_file_src = os.path.basename(post['file'])
+    post_photo_file_src = os.path.join(media_dir, post_photo_file_src)
+    post_photo_thumbnail_src = os.path.basename(post['thumbnail'])
+    post_photo_thumbnail_src = os.path.join(media_dir,
+                                            post_photo_thumbnail_src)
+
+    post_photo_as_file = '![image]({thumb})\n[full size]({file})\n\n'\
+        .format(thumb=post_photo_thumbnail_src, file=post_photo_file_src)
+
+    return post_photo_as_file
 
 
 def text_format(string, fmt):
@@ -159,20 +182,36 @@ def parse_post_text(post):
 def parse_post_media(post, media_dir):
 
     '''
-    wraps file links into html tags
+    wraps media files into html tags
     '''
 
-    # get filename without parent directory
-    post_media_src = os.path.basename(post['file'])
+    post_media_file = os.path.basename(post['file'])
+    post_media_ext = post_media_file.split(".")[-1]
+    post_media_src = os.path.join(media_dir, post_media_file)
 
-    # add parent directory
-    post_media_src = os.path.join(media_dir, post_media_src)
-    post_media = '\n<audio controls>\n \
-        <source src="{src}" type="{mime_type}">\n \
-        </audio>'.format(src=post_media_src, mime_type=post['mime_type'])
+    # audiofiles can be presented as audioplayers and other media types
+    # could be left as just links to them
+    # ???
+    post_media = '\n<audio controls>\n\
+            <source src="{src}" type="{mime_type}">\n\
+            </audio>'.format(src=post_media_src, mime_type=post['mime_type'])
 
     return post_media
 
+
+def parse_post_file(post, media_dir):
+
+    '''
+    wrap files into link tags
+    '''
+
+    post_file_src = os.path.basename(post['file'])
+    post_file_ext = post_file_src.split('.')[-1]
+    post_file_name = post_file_src.removesuffix('.' + post_file_ext)
+
+    post_file = f'\n\n[{post_file_name}]({post_file_src})\n\n'
+
+    return post_file
 
 def parse_post(post, photo_dir, media_dir):
 
@@ -183,8 +222,12 @@ def parse_post(post, photo_dir, media_dir):
     post_output = ''
 
     # optional image
+    # TODO: handle multiple photos in one post (maybe by comparing timestamps)
     if 'photo' in post:
         post_output += str(parse_post_photo(post, photo_dir))
+
+    if all(['file' in post, 'thumbnail' in post]):
+        post_output += str(parse_post_photo_as_file(post, media_dir))
 
     # post text
     post_output += str(parse_post_text(post))
@@ -192,6 +235,8 @@ def parse_post(post, photo_dir, media_dir):
     # optional media
     if 'media_type' in post:
         post_output += str(parse_post_media(post, media_dir))
+    elif 'file' in post and not 'thumbnail' in post:
+        post_output += str(parse_post_file(post, media_dir))
 
     return post_output
 
@@ -256,8 +301,8 @@ def main():
             post_path = os.path.join(args.out_dir, post_filename)
 
             with open(post_path, 'w', encoding='utf-8') as f:
-                print(print_default_post_header(
-                    post_id, post_date, None), file=f)
+                print(print_default_post_header(post_id, post_date, None),
+                      file=f)
                 print(parse_post(post, args.photo_dir, args.media_dir), file=f)
 
 

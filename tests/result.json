@@ -217,6 +217,63 @@
    "from": "test",
    "from_id": "channel1292077344",
    "text": "тестирование utf-8."
+  },
+  {
+   "id": 22,
+   "type": "message",
+   "date": "2021-07-14T18:40:10",
+   "edited": "2021-07-14T18:40:24",
+   "from": "test",
+   "from_id": "channel1292077344",
+   "file": "files/dice.svg",
+   "thumbnail": "files/dice.svg_thumb.jpg",
+   "mime_type": "image/svg+xml",
+   "width": 622,
+   "height": 406,
+   "text": "test file other than sound"
+  },
+  {
+   "id": 23,
+   "type": "message",
+   "date": "2021-07-14T18:52:46",
+   "from": "test",
+   "from_id": "channel1292077344",
+   "photo": "photos/photo_3@14-07-2021_18-52-46.jpg",
+   "width": 801,
+   "height": 526,
+   "text": "multiple photos"
+  },
+  {
+   "id": 24,
+   "type": "message",
+   "date": "2021-07-14T18:52:46",
+   "from": "test",
+   "from_id": "channel1292077344",
+   "photo": "photos/photo_3@14-07-2021_18-52-46.jpg",
+   "width": 801,
+   "height": 526,
+   "text": ""
+  },
+  {
+   "id": 25,
+   "type": "message",
+   "date": "2021-07-14T18:52:46",
+   "from": "test",
+   "from_id": "channel1292077344",
+   "photo": "photos/photo_3@14-07-2021_18-52-46.jpg",
+   "width": 801,
+   "height": 526,
+   "text": ""
+  },
+  {
+   "id": 26,
+   "type": "message",
+   "date": "2021-07-14T19:20:23",
+   "from": "test",
+   "from_id": "channel1292077344",
+   "file": "files/LICENSE.md",
+   "mime_type": "text/markdown",
+   "text": "test text file"
   }
  ]
 }
