@@ -251,25 +251,25 @@ def main():
             'json', metavar='json_file',
             help='result.json file from telegram export')
     parser.add_argument(
-            '--out-dir', metavar='out_dir',
+            '-o', '--out-dir', metavar='out_dir',
             nargs='?', default='formatted_posts',
             help='output directory for markdown files\
                     (default: formatted_posts)')
     parser.add_argument(
-            '--photo-dir', metavar='photo_dir',
+            '-p', '--photo-dir', metavar='photo_dir',
             nargs='?', default='photos',
             help='location of image files. this changes only links\
                     to photos in markdown text, so specify your\
                     desired location (default: photos)')
     parser.add_argument(
-            '--media-dir', metavar='media_dir',
+            '-m', '--media-dir', metavar='media_dir',
             nargs='?', default='files',
             help='location of media files. this changes only links\
                     to files in markdown text, so specify your \
                     desired location (default: files)')
     args_wip = parser.add_argument_group('work in progress')
     args_wip.add_argument(
-            '--post-header', metavar='post_header',
+            '-H', '--post-header', metavar='post_header',
             nargs='?',
             help='yaml front matter for your posts \
                     (now doesn\'t work)')
