@@ -11,6 +11,7 @@
 # - multiple photos in one post
 
 import os
+import logging
 import argparse
 import json
 from datetime import datetime
@@ -278,8 +279,8 @@ def main():
 
     try:
         os.mkdir(args.out_dir)
-    except FileExistsError:
-        pass
+    except OSError as error:
+        logging.warning(error)
 
     # load json file
     try:
